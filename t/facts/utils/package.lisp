@@ -1,3 +1,3 @@
-(defpackage #:factual.fact.utils
+(defpackage #:utils
   (:use :cl :factual)
   (:export :*user*))

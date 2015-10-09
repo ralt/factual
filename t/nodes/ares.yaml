@@ -1,4 +1,4 @@
 facts:
-    - factual.utils
+    - utils
 
-factual.utils.user: florian
+utils.user: florian

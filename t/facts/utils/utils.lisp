@@ -1,4 +1,4 @@
-(in-package #:factual.fact.utils)
+(in-package #:utils)
 
 (defvar *user* nil)
 

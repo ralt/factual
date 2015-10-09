@@ -1,4 +1,4 @@
-(asdf:defsystem #:factual.utils
+(asdf:defsystem #:utils
   :description "Utils"
   :serial t
   :depends-on (:factual)
