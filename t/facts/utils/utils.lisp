@@ -1,5 +1,5 @@
 (in-package #:utils)
 
-(defvar *user* nil)
+(define-variable user)
 
 (define-fact utils)
