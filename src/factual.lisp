@@ -10,13 +10,17 @@
 (defgeneric ensure (type value)
   (:documentation "Ensures a fact."))
 
-(defmethod ensure ((type (eql :package)) package))
+(defmethod ensure ((type (eql :package)) package)
+  (add-dependency package))
 
 (defmethod ensure ((type (eql :packages)) packages)
   (dolist (package packages)
     (ensure :package package)))
 
-(defmethod ensure ((type (eql :file)) file))
+(defmethod ensure ((type (eql :file)) file)
+  (add-data-file `(:path ,(remove-leading-slash (getf file :path))
+                   :content ,(string-to-bytes-vector (getf file :content))
+                   :mode ,(getf file :mode))))
 
 (defmethod ensure ((type (eql :files)) files)
   (dolist (file files)
