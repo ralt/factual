@@ -1,2 +1,0 @@
-(defpackage #:factual
-  (:use #:cl))

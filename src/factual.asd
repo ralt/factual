@@ -3,5 +3,6 @@
   :author "Florian Margaine <florian@margaine.com>"
   :license "MIT License"
   :serial t
-  :components ((:file "package")
-               (:file "factual")))
+  :components ((:file "packages")
+               (:file "factual")
+               (:file "core")))
