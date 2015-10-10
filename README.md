@@ -20,3 +20,18 @@ The hooks:
 - `add-control-file`
 
 A "standard library" will be provided to make common things easy.
+
+### More thoughts
+
+The package `factual.core` will use the provided hooks and generate
+the debian package based on that. The hooks will basically have a
+package instance passed to them, or an abstraction of some kind.
+
+The package `factual` provides an abstraction over hooks, as in
+functions like `ensure-package-exists` (not sure yet how to do
+this... should it be `(defmethod ensure ((type :package)
+&allow-other-keys))` or something similar?), that the facts will
+usually use.
+
+The facts shouldn't have to use the low-level hooks. The `factual`
+package should provide everything necessary.
