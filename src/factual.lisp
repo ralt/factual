@@ -1,11 +1,9 @@
 (in-package #:factual)
 
-(defvar *variables* (make-hash-table))
-
 (defmacro define-variable (variable key)
   `(progn
      (defvar ,variable)
-     (push ,key (gethash *package* factual::*variables*))))
+     (push ,key (gethash *package* factual.core::*variables*))))
 
 (defgeneric ensure (type value)
   (:documentation "Ensures a fact."))
