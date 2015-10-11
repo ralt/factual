@@ -2,30 +2,28 @@
 
 (defmacro define-variable (variable key)
   `(progn
-     (defvar ,variable)
-     (push ,key (gethash *package* factual.core::*variables*))))
+     (defvar ,variable nil)
+     (factual.core:add-variable *package* (symbol-name ',variable) ,key)))
 
-(defgeneric ensure (type value)
-  (:documentation "Ensures a fact."))
+(defmacro ensure (type values)
+  `(factual.core:add-constraint *package* ,type #'(lambda () (progn ,values))))
 
-(defmethod ensure ((type (eql :package)) package)
-  (add-dependency package))
+(defun template (path))
 
-(defmethod ensure ((type (eql :packages)) packages)
-  (dolist (package packages)
-    (ensure :package package)))
+(factual.core:define-constraint-type :package (package value)
+  (factual.core:add-dependency package value))
 
-(defmethod ensure ((type (eql :file)) file)
-  (add-data-file `(:path ,(remove-leading-slash (getf file :path))
-                   :content ,(string-to-bytes-vector (getf file :content))
-                   :mode ,(getf file :mode))))
+(factual.core:define-constraint-type :packages (package values)
+  (dolist (value values)
+    (factual.core:add-dependency package value)))
 
-(defmethod ensure ((type (eql :files)) files)
+(factual.core:define-constraint-type :file (package file)
+  (factual.core:add-data-file package file))
+
+(factual.core:define-constraint-type :files (package files)
   (dolist (file files)
-    (ensure :file file)))
+    (factual.core:add-data-file package file)))
 
-(defmethod ensure ((type (eql :user)) user))
+(factual.core:define-constraint-type :user (package user))
 
-(defmethod ensure ((type (eql :users)) users)
-  (dolist (user users)
-    (ensure :user user)))
+(factual.core:define-constraint-type :users (package users))
