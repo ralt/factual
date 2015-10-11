@@ -9,4 +9,5 @@
                 :components ((:file "core")))
                (:module "src"
                 :components ((:file "factual" :depends-on ("utils"))
+                             (:file "core-bridge")
                              (:file "utils")))))
