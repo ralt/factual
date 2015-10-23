@@ -5,7 +5,11 @@
    (data-files :accessor :data-files :initform nil)))
 
 (defclass node ()
-  ((name :accessor :name :initarg :name)))
+  ((name :accessor :name :initarg :name :type string)
+   (packages :accessor :packages :type list)
+   (variables :accessor :variables :type list)))
 
 (defmethod deb-path ((node node))
-  (name node))
+  (format nil "~A_~A.deb"
+          (name node)
+          (local-time:format-rfc3339-timestring nil (local-time:now))))

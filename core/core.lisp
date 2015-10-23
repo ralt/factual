@@ -24,7 +24,7 @@
   (push file (data-files deb-package)))
 
 (defun main (&rest args)
-  (dolist (node (read-nodes args))
+  (dolist (node (read-nodes))
     (make-debian-package node)))
 
 (defun make-debian-package (node)
@@ -64,7 +64,28 @@
       (deb-packager:initialize-data-files deb data-files)
       (deb-packager:write-deb-file (deb-path node) deb))))
 
-(defun read-nodes (args))
+(defun read-nodes ()
+  (mapcar
+   (lambda (n)
+     (let ((node (make-instance 'node :name (node-name-from-filename n)))
+           (content (yaml:parse (alexandria:read-file-into-string n))))
+       (populate-node node content)))
+   (fad:list-directory "nodes")))
+
+(defun node-name-from-filename (filename)
+  (let ((parts (ppcre:split "\\." filename)))
+    (format nil "~{~A~^.~}" (butlast parts))))
+
+(defun populate-node (node content)
+  (multiple-value-prog1 node
+    (setf (packages node) (gethash "packages" content))
+    (populate-variables node content)))
+
+(defun populate-variables (node content)
+  (let ((keys (remove-if (lambda (k) (string= k "packages"))
+                         ;; Every key but "packages" is a variable
+                         (alexandria:hash-table-keys content)))
+        (packages (packages node)))))
 
 (defun read-packages (node))
 

@@ -3,7 +3,13 @@
   :author "Florian Margaine <florian@margaine.com>"
   :license "MIT License"
   :serial t
-  :depends-on (:trivial-utf-8 :deb-packager)
+  :depends-on (:trivial-utf-8
+               :deb-packager
+               :cl-fad
+               :alexandria
+               :cl-yaml
+               :cl-ppcre
+               :local-time)
   :components ((:file "packages")
                (:module "core"
                 :components ((:file "core" :depends-on ("classes"))

@@ -1,4 +1,4 @@
-facts:
+packages:
     - utils
 
 utils.user: florian
