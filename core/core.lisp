@@ -29,7 +29,7 @@
 
 (defun make-debian-package (node)
   (let ((deb-package (make-instance 'deb-package)))
-    (dolist (package (read-packages node))
+    (dolist (package (load-packages node))
       (fill-variables package)
       (resolve-constraints deb-package package))
     (let* ((changelog-entries (make-array
@@ -88,15 +88,16 @@
         (packages (packages node)))
     (dolist (package packages)
       (dolist (key keys)
-        (let ((parts (ppcre:split "::" key)))
-          (when (string= package (first parts))
+        (destructuring-bind (package-name variable-name)
+            (ppcre:split "::" key)
+          (when (string= package package-name)
             (push (make-instance 'variable
                                  :package package
-                                 :name (second parts)
+                                 :name variable-name
                                  :value (gethash key content))
                   (variables node))))))))
 
-(defun read-packages (node))
+(defun load-packages (node))
 
 (defun fill-variables (package))
 
