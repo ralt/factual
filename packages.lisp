@@ -1,6 +1,7 @@
 (defpackage #:factual.core
   (:use #:cl)
-  (:shadow :variable)
+  (:shadow :variable
+           :package)
   (:export :define-constraint-type
            :add-variable
            :add-constraint

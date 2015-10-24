@@ -24,6 +24,7 @@
   (push file (data-files deb-package)))
 
 (defun main (&rest args)
+  (declare (ignore args))
   (dolist (node (read-nodes))
     (make-debian-package node)))
 
@@ -60,7 +61,7 @@
                                        :size (length (getf file :content))
                                        :mode (getf file :mode)))
                                     (data-files deb-package)))))
-      (deb-packager:initialize-control-files deb nil)
+      (deb-packager:initialize-control-files deb #())
       (deb-packager:initialize-data-files deb data-files)
       (deb-packager:write-deb-file (deb-path node) deb))))
 
@@ -97,7 +98,13 @@
                                  :value (gethash key content))
                   (variables node))))))))
 
-(defun load-packages (node))
+(defun load-packages (node)
+  ;; Something like this has to be done:
+  ;;
+  ;; (asdf:initialize-source-registry "/absolute/path/to/packages/")
+  ;; (asdf:clear-source-registry)
+  ;; (dolist (p (packages node)) (asdf:load-system p))
+  )
 
 (defun fill-variables (package))
 
