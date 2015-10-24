@@ -73,7 +73,7 @@
    (fad:list-directory "nodes")))
 
 (defun node-name-from-filename (filename)
-  (let ((parts (ppcre:split "\\." filename)))
+  (let ((parts (ppcre:split "\\." (namestring filename))))
     (format nil "~{~A~^.~}" (butlast parts))))
 
 (defun populate-node (node content)
@@ -85,7 +85,16 @@
   (let ((keys (remove-if (lambda (k) (string= k "packages"))
                          ;; Every key but "packages" is a variable
                          (alexandria:hash-table-keys content)))
-        (packages (packages node)))))
+        (packages (packages node)))
+    (dolist (package packages)
+      (dolist (key keys)
+        (let ((parts (ppcre:split "::" key)))
+          (when (string= package (first parts))
+            (push (make-instance 'variable
+                                 :package package
+                                 :name (second parts)
+                                 :value (gethash key content))
+                  (variables node))))))))
 
 (defun read-packages (node))
 
