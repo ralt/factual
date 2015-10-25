@@ -33,7 +33,7 @@
   (let ((deb-package (make-instance 'deb-package)))
     (dolist (package (load-packages node))
       (fill-variables package)
-      (resolve-constraints deb-package package))
+      (apply-facts deb-package package))
     (let* ((changelog-entries (make-array
                                1
                                :initial-contents
@@ -107,4 +107,4 @@
 
 (defun fill-variables (package))
 
-(defun resolve-constraints (deb-package package))
+(defun apply-facts (deb-package package))
