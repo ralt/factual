@@ -26,6 +26,7 @@
 (defun main (&rest args)
   (declare (ignore args))
   (dolist (node (read-nodes))
+    (log:info "Found node ~A" (name node))
     (make-debian-package node)))
 
 (defun make-debian-package (node)
@@ -42,7 +43,7 @@
                                                  :message "message"
                                                  :date 1434665998))))
            (deb (make-instance 'deb-packager:deb-package
-                               :name (name node)
+                               :name (intern (name node))
                                :changelog changelog-entries
                                :description "description"
                                :architecture "amd64"

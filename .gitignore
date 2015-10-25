@@ -1,1 +1,6 @@
 *.fasl
+factual
+deps
+.quicklocal/
+*.deb
+quicklisp.lisp

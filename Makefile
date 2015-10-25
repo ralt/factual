@@ -12,7 +12,6 @@ deps:
 		--eval '(quit)'
 	@touch $@
 
-
 factual: $(SOURCES) $(QL_LOCAL)/setup.lisp deps
 	@buildapp \
 		--asdf-tree $(QL_LOCAL)/local-projects \
@@ -23,15 +22,28 @@ factual: $(SOURCES) $(QL_LOCAL)/setup.lisp deps
 		--compress-core \
 		--output factual --entry factual.core:main
 
-.PHONY: clean install
+.PHONY: clean install debug
+
+debug: $(SOURCES) $(QL_LOCAL)/setup.lisp deps
+	@buildapp \
+		--asdf-tree $(QL_LOCAL)/local-projects \
+		--asdf-tree $(QL_LOCAL)/dists \
+		--asdf-path . \
+		--load-system factual \
+		--compress-core \
+		--output factual --entry factual.core:main
 
 clean:
-	rm -rf factual deps .quicklocal/
+	rm -rf factual deps .quicklocal/ quicklisp.lisp
 
-$(QL_LOCAL)/setup.lisp:
+quicklisp.lisp:
+	@wget https://beta.quicklisp.org/quicklisp.lisp
+	@echo '4a7a5c2aebe0716417047854267397e24a44d0cce096127411e9ce9ccfeb2c17 quicklisp.lisp' | sha256sum -c -
+
+$(QL_LOCAL)/setup.lisp: quicklisp.lisp
 	@sbcl --noinform --noprint --disable-debugger --no-sysinit --no-userinit \
 		--load quicklisp.lisp \
-		--eval '(quicklisp-quickstart:install :path "$(QL_LOCAL)" :dist-url "http://beta.quicklisp.org/dist/quicklisp/2015-08-04/distinfo.txt")' \
+		--eval '(quicklisp-quickstart:install :path "$(QL_LOCAL)" :dist-url "http://beta.quicklisp.org/dist/quicklisp/2015-09-25/distinfo.txt")' \
 		--eval '(quit)'
 
 install:

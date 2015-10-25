@@ -15,6 +15,7 @@
    (value :initarg :value :reader value)))
 
 (defmethod deb-path ((node node))
-  (format nil "~A_~A.deb"
-          (name node)
-          (local-time:format-rfc3339-timestring nil (local-time:now))))
+  (pathname
+   (format nil "~A_~A.deb"
+           (name node)
+           (local-time:format-rfc3339-timestring nil (local-time:now)))))

@@ -9,7 +9,8 @@
                :alexandria
                :cl-yaml
                :cl-ppcre
-               :local-time)
+               :local-time
+               :log4cl)
   :components ((:file "packages")
                (:module "core"
                 :components ((:file "core" :depends-on ("classes"))
