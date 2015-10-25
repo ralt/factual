@@ -98,12 +98,17 @@
                   (variables node))))))))
 
 (defun load-packages (node)
-  ;; Something like this has to be done:
-  ;;
-  ;; (asdf:initialize-source-registry "/absolute/path/to/packages/")
-  ;; (asdf:clear-source-registry)
-  ;; (dolist (p (packages node)) (asdf:load-system p))
-  )
+  (asdf:initialize-source-registry (packages-path))
+  (asdf:clear-source-registry)
+  (let ((pkgs (packages node)))
+    (multiple-value-prog1 pkgs
+      (dolist (p pkgs)
+        (asdf:load-system p)))))
+
+(defun packages-path ()
+  (merge-pathnames #p"packages/"
+                   ;; current working directory
+                   #p""))
 
 (defun fill-variables (package))
 
