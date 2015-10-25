@@ -32,7 +32,7 @@
 (defun make-debian-package (node)
   (let ((deb-package (make-instance 'deb-package)))
     (dolist (package (load-packages node))
-      (fill-variables package)
+      (fill-variables package node)
       (apply-facts deb-package package))
     (let* ((changelog-entries (get-changelog-entries))
            (deb (get-deb node deb-package changelog-entries))
@@ -119,6 +119,6 @@
                    ;; current working directory
                    #p""))
 
-(defun fill-variables (package))
+(defun fill-variables (package node))
 
 (defun apply-facts (deb-package package))

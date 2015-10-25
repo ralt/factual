@@ -3,7 +3,10 @@
 (defmacro define-variable (variable key)
   `(progn
      (defvar ,variable nil)
-     (factual.core:add-variable *package* (symbol-name ',variable) ,key)))
+     (factual.core:add-variable (package-name *package*)
+                                (symbol-name ',variable) ,key)))
 
 (defmacro ensure (type values)
-  `(factual.core:add-constraint *package* ,type #'(lambda () (progn ,values))))
+  `(factual.core:add-constraint (package-name *package*)
+                                ,type
+                                (lambda () (progn ,values))))
