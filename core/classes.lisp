@@ -6,6 +6,7 @@
 
 (defclass node ()
   ((name :accessor name :initarg :name :type string)
+   (path :reader path :initarg :path :type pathname)
    (packages :accessor packages :type list)
    (variables :accessor variables :type list :initform nil)))
 
@@ -14,7 +15,7 @@
    (name :initarg :name :reader name)
    (value :initarg :value :reader value)))
 
-(defmethod deb-path ((node node))
+(defmethod deb-pathname ((node node))
   (pathname
    (format nil "~A_~A.deb"
            (name node)

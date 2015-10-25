@@ -64,19 +64,17 @@
                                     (data-files deb-package)))))
       (deb-packager:initialize-control-files deb #())
       (deb-packager:initialize-data-files deb data-files)
-      (deb-packager:write-deb-file (deb-path node) deb))))
+      (deb-packager:write-deb-file (deb-pathname node) deb))))
 
 (defun read-nodes ()
   (mapcar
    (lambda (n)
-     (let ((node (make-instance 'node :name (node-name-from-filename n)))
+     (let ((node (make-instance 'node
+                                :name (pathname-name n)
+                                :path n))
            (content (yaml:parse (alexandria:read-file-into-string n))))
        (populate-node node content)))
    (fad:list-directory "nodes")))
-
-(defun node-name-from-filename (filename)
-  (let ((parts (ppcre:split "\\." (namestring filename))))
-    (format nil "~{~A~^.~}" (butlast parts))))
 
 (defun populate-node (node content)
   (multiple-value-prog1 node
