@@ -17,6 +17,12 @@
 
 (defmethod deb-pathname ((node node))
   (pathname
-   (format nil "~A_~A.deb"
+   (format nil "~A_~{~A~^-~}.deb"
            (name node)
-           (local-time:format-rfc3339-timestring nil (local-time:now)))))
+           (let ((now (local-time:now)))
+             (list (local-time:timestamp-year now)
+                   (local-time:timestamp-month now)
+                   (local-time:timestamp-day now)
+                   (local-time:timestamp-hour now)
+                   (local-time:timestamp-minute now)
+                   (local-time:timestamp-second now))))))
