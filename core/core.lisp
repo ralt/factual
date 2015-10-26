@@ -73,6 +73,6 @@
                    ;; current working directory
                    #p""))
 
-(defun fill-variables (package node))
+(defun fill-variables (node))
 
-(defun apply-facts (deb-package package))
+(defun apply-facts (deb-package node))

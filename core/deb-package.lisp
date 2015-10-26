@@ -2,9 +2,8 @@
 
 (defun make-debian-package (node)
   (let ((deb-package (make-instance 'deb-package)))
-    (dolist (package (load-packages node))
-      (fill-variables package node)
-      (apply-facts deb-package package))
+    (fill-variables node)
+    (apply-facts deb-package node)
     (let* ((changelog-entries (get-changelog-entries))
            (deb (get-deb node deb-package changelog-entries))
            (data-files (get-data-files deb-package)))
