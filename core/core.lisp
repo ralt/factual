@@ -73,6 +73,13 @@
                    ;; current working directory
                    #p""))
 
-(defun fill-variables (node))
+(defun fill-variables (node)
+  (dolist (var (variables node))
+    (load-packages node)
+    (let ((symbol (intern (name var) (find-package
+                                      (intern
+                                       (string-upcase (package var))
+                                       :keyword)))))
+      (setf symbol (value var)))))
 
 (defun apply-facts (deb-package node))
