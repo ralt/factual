@@ -13,9 +13,14 @@
                :log4cl)
   :components ((:file "packages")
                (:module "core"
-                :components ((:file "core" :depends-on ("classes" "deb-package"))
+                :components ((:file "core" :depends-on ("classes"
+                                                        "deb-package"
+                                                        "node"
+                                                        "fact"))
                              (:file "classes")
-                             (:file "deb-package" :depends-on ("classes"))))
+                             (:file "deb-package" :depends-on ("classes"))
+                             (:file "node" :depends-on ("classes"))
+                             (:file "fact" :depends-on ("classes"))))
                (:module "src"
                 :components ((:file "factual" :depends-on ("utils"))
                              (:file "core-bridge")
