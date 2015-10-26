@@ -22,4 +22,9 @@
                                        :keyword)))))
       (setf symbol (value var)))))
 
-(defun apply-facts (deb-package node))
+(defun apply-facts (deb-package node)
+  (dolist (p (packages node))
+    (dolist (constraint (gethash p *constraints*))
+      (funcall (gethash (getf constraint :type) *constraint-types*)
+               deb-package
+               (funcall (getf constraint :values))))))
