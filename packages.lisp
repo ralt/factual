@@ -2,9 +2,9 @@
   (:use #:cl)
   (:shadow :variable
            :package)
-  (:export :define-constraint-type
+  (:export :define-fact-type
            :add-variable
-           :add-constraint
+           :add-fact
            :add-dependency
            :add-data-file))
 
