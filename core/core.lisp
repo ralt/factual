@@ -1,11 +1,11 @@
 (in-package #:factual.core)
 
 (defvar *variables* (make-hash-table))
-(defvar *constraints* (make-hash-table))
-(defvar *constraint-types* (make-hash-table))
+(defvar *facts* (make-hash-table))
+(defvar *fact-types* (make-hash-table))
 
-(defmacro define-constraint-type (type vars &body body)
-  `(setf (gethash ,type *constraint-types*)
+(defmacro define-fact-type (type vars &body body)
+  `(setf (gethash ,type *fact-types*)
          #'(lambda ,vars
              ,@body)))
 
@@ -13,9 +13,9 @@
   (push `(:symbol ,symbol-name :key ,key)
         (gethash package *variables*)))
 
-(defun add-constraint (package type values)
+(defun add-fact (package type values)
   (push `(:type ,type :values ,values)
-        (gethash package *constraints*)))
+        (gethash package *facts*)))
 
 (defun add-dependency (deb-package dependency)
   (push dependency (depends deb-package)))

@@ -24,7 +24,7 @@
 
 (defun apply-facts (deb-package node)
   (dolist (p (packages node))
-    (dolist (constraint (gethash p *constraints*))
-      (funcall (gethash (getf constraint :type) *constraint-types*)
+    (dolist (fact (gethash p *facts*))
+      (funcall (gethash (getf fact :type) *fact-types*)
                deb-package
-               (funcall (getf constraint :values))))))
+               (funcall (getf fact :values))))))

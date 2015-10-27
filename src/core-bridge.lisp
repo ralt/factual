@@ -7,6 +7,6 @@
                                 (symbol-name ',variable) ,key)))
 
 (defmacro ensure (type values)
-  `(factual.core:add-constraint (package-name *package*)
-                                ,type
-                                (lambda () (progn ,values))))
+  `(factual.core:add-fact (package-name *package*)
+                          ,type
+                          (lambda () (progn ,values))))
